@@ -1,0 +1,47 @@
+﻿@using System.Data;
+@model DataSet
+@{
+    ViewBag.Title = "Index";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="~/Content/Style1.css" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Archivos</title>
+</head>
+<body>
+    <br />
+    <h2 align="center">Cargar y mostrar un archivo Excel</h2>
+    @using (Html.BeginForm("Index", "Archivo", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.ViewBag.Error<br />
+        <input type="file" name="postedFile" class="btn-default" />
+        <input type="submit" value="Import" class="btn boton btn-primary" />
+    }
+    <div id="formulario">
+        @if (Model != null)
+        {
+            <table cellpadding="0" cellspacing="0" align="center">
+                <tr>
+                    @foreach (DataColumn col in Model.Tables[0].Columns)
+                    {
+                        <th>@col.ColumnName</th>
+                    }
+                </tr>
+                @foreach (DataRow row in Model.Tables[0].Rows)
+                {
+                    <tr>
+                        @foreach (DataColumn col in Model.Tables[0].Columns)
+                        {
+                            <td>@row[col.ColumnName]</td>
+                        }
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+</body>
+</html>
